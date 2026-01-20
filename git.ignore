@@ -1,3 +1,3 @@
-First/.terraform/*
-.terraform
+First/.terraform/
+.terraform/
 .terraform.lock.hcl
