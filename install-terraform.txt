@@ -1,0 +1,23 @@
+Installere terraform og azure-cli med chocolatey på windows (kan også
+gjøre det i linux-miljø hvis dere vil)..
+Åpne Powershell 7 med admin rettigheter:
+Følg kommandoer her for å installere chocolatey på windows:
+https://chocolatey.org/install
+Installer programvare:
+Installer terraform -- "choco install terraform -y"
+Sjekk versjon -- "terraform -version"
+Installer azure-cli -- "choco install azure-cli -y"
+Logg inn i azure:
+Logg inn -- "az login --tenant <tenant-id>"
+Følg instruksjoner!!!
+Velg din student-subscription
+Kan se hvilken tennant du har tilgjengelig -- "az account list"
+Opprett mappe for ressurs, opprett en main.tf fil i den mappa.
+Kjør kommandoene:
+terraform init
+terraform plan
+terraform apply
+terraform destroy
+terraform show
+Terraform registry - https://registry.terraform.io/
+Kan se alle providers og dokumentasjon
