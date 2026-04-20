@@ -8,12 +8,12 @@ directly into inputs of another.
 
 | Module | Description |
 |--------|-------------|
-| [resource-group](./modules/resource-group/) | Resource group with optional delete lock |
-| [network](./modules/network/) | VNet, subnets, and NSG rules |
-| [vm](./modules/vm/) | Linux VM with optional public IP and data disks |
-| [loadbalancer-internal](./modules/loadbalancer-internal/) | Internal load balancer with static private IP |
-| [loadbalancer-external](./modules/loadbalancer-external/) | Internet-facing load balancer with public IP |
-| [ssh-key](./modules/ssh-key/) | SSH key pair with local or Key Vault storage |
+| [resource-group](./resource-group/) | Resource group with optional delete lock |
+| [network](./network/) | VNet, subnets, and NSG rules |
+| [vm](./vm/) | Linux VM with optional public IP and data disks |
+| [loadbalancer-internal](./loadbalancer-internal/) | Internal load balancer with static private IP |
+| [loadbalancer-external](./loadbalancer-external/) | Internet-facing load balancer with public IP |
+| [ssh-key](./ssh-key/) | SSH key pair with local or Key Vault storage |
 
 ## Requirements
 
