@@ -6,7 +6,7 @@ Creates an Azure resource group with an optional delete lock.
 
 ```hcl
 module "rg" {
-  source = "https://github.com/kristersoberg/FSI-Terraform/tree/main/terraform-maler/modules/resource-group"
+  source = "https://github.com/kristersoberg/FSI-Terraform/tree/main/terraform-templates/modules/resource-group"
 
   name     = "my-rg"
   location = "norwayeast"

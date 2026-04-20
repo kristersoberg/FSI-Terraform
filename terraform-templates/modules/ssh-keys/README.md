@@ -49,7 +49,7 @@ module "ssh_key" {
 }
 
 module "vm" {
-  source = "https://github.com/kristersoberg/FSI-Terraform/tree/main/terraform-maler/modules/ssh-keys"
+  source = "https://github.com/kristersoberg/FSI-Terraform/tree/main/terraform-templates/modules/ssh-keys"
 
   auth_type      = "ssh"
   ssh_public_key = module.ssh_key.public_key
