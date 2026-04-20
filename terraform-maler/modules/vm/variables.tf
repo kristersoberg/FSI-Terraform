@@ -1,19 +1,15 @@
-# =============================================
-# REQUIRED
-# =============================================
-
 variable "resource_group_name" {
   description = "Name of the Azure resource group"
   type        = string
 }
 
 variable "location" {
-  description = "Azure region (e.g. 'norwayeast', 'westeurope')"
+  description = "Azure region"
   type        = string
 }
 
 variable "vm_name" {
-  description = "Name of the virtual machine (e.g. 'web-vm', 'db-vm-1')"
+  description = "Name of the virtual machine"
   type        = string
 }
 
@@ -28,23 +24,19 @@ variable "admin_username" {
 }
 
 variable "image_publisher" {
-  description = "OS image publisher (e.g. 'Canonical', 'Debian', 'MicrosoftWindowsServer')"
+  description = "OS image publisher"
   type        = string
 }
 
 variable "image_offer" {
-  description = "OS image offer (e.g. '0001-com-ubuntu-server-focal', 'debian-11')"
+  description = "OS image offer"
   type        = string
 }
 
 variable "image_sku" {
-  description = "OS image SKU (e.g. '20_04-lts', '11-gen2')"
+  description = "OS image SKU"
   type        = string
 }
-
-# =============================================
-# AUTHENTICATION
-# =============================================
 
 variable "auth_type" {
   description = "Authentication method: 'password' or 'ssh'"
@@ -58,37 +50,33 @@ variable "auth_type" {
 }
 
 variable "admin_password" {
-  description = "Admin password. Required when auth_type = 'password'."
+  description = "Required when auth_type = 'password'"
   type        = string
   sensitive   = true
   default     = null
 }
 
 variable "ssh_public_key" {
-  description = "Public SSH key contents. Required when auth_type = 'ssh'."
+  description = "Required when auth_type = 'ssh'"
   type        = string
   sensitive   = true
   default     = null
 }
 
-# =============================================
-# OPTIONAL
-# =============================================
-
 variable "vm_size" {
-  description = "Azure VM size (e.g. 'Standard_B1s', 'Standard_B2s', 'Standard_B4ms')"
+  description = "Azure VM size"
   type        = string
   default     = "Standard_B1s"
 }
 
 variable "create_public_ip" {
-  description = "Attach a public IP address. Set to true for web servers, false for internal servers."
+  description = "Attach a public IP to the VM"
   type        = bool
   default     = false
 }
 
 variable "os_disk_type" {
-  description = "OS disk storage type: 'Standard_LRS', 'StandardSSD_LRS' or 'Premium_LRS'"
+  description = "OS disk storage type"
   type        = string
   default     = "Standard_LRS"
 
@@ -99,30 +87,19 @@ variable "os_disk_type" {
 }
 
 variable "startup_script" {
-  description = "Bash script to run on first boot (cloud-init)."
+  description = "Bash script to run on first boot"
   type        = string
   default     = ""
 }
 
 variable "tags" {
-  description = "Key/value pairs for tagging Azure resources"
+  description = "Tags to apply to all resources"
   type        = map(string)
   default     = {}
 }
 
-# =============================================
-# DATA DISKS
-# =============================================
-
 variable "data_disks" {
-  description = <<-EOT
-    List of additional data disks to create and attach to the VM.
-    Example:
-      data_disks = [
-        { size_gb = 32, type = "Standard_LRS" },
-        { size_gb = 64, type = "Premium_LRS"  }
-      ]
-  EOT
+  description = "List of additional data disks to attach"
   type = list(object({
     size_gb = number
     type    = string

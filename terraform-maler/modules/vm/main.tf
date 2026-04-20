@@ -1,7 +1,3 @@
-# =============================================
-# PUBLIC IP (optional)
-# =============================================
-
 resource "azurerm_public_ip" "this" {
   count               = var.create_public_ip ? 1 : 0
   name                = "pip-${var.vm_name}"
@@ -9,13 +5,8 @@ resource "azurerm_public_ip" "this" {
   resource_group_name = var.resource_group_name
   allocation_method   = "Static"
   sku                 = "Standard"
-
-  tags = var.tags
+  tags                = var.tags
 }
-
-# =============================================
-# NETWORK INTERFACE
-# =============================================
 
 resource "azurerm_network_interface" "this" {
   name                = "nic-${var.vm_name}"
@@ -32,10 +23,6 @@ resource "azurerm_network_interface" "this" {
   tags = var.tags
 }
 
-# =============================================
-# VIRTUAL MACHINE
-# =============================================
-
 resource "azurerm_linux_virtual_machine" "this" {
   name                            = var.vm_name
   resource_group_name             = var.resource_group_name
@@ -43,10 +30,10 @@ resource "azurerm_linux_virtual_machine" "this" {
   size                            = var.vm_size
   admin_username                  = var.admin_username
   disable_password_authentication = var.auth_type == "ssh"
-
-  network_interface_ids = [azurerm_network_interface.this.id]
-
-  admin_password = var.auth_type == "password" ? var.admin_password : null
+  network_interface_ids           = [azurerm_network_interface.this.id]
+  admin_password                  = var.auth_type == "password" ? var.admin_password : null
+  custom_data                     = var.startup_script != "" ? base64encode(var.startup_script) : null
+  tags                            = var.tags
 
   dynamic "admin_ssh_key" {
     for_each = var.auth_type == "ssh" ? [1] : []
@@ -67,15 +54,7 @@ resource "azurerm_linux_virtual_machine" "this" {
     sku       = var.image_sku
     version   = "latest"
   }
-
-  custom_data = var.startup_script != "" ? base64encode(var.startup_script) : null
-
-  tags = var.tags
 }
-
-# =============================================
-# DATA DISKS (optional)
-# =============================================
 
 resource "azurerm_managed_disk" "this" {
   count                = length(var.data_disks)
@@ -85,8 +64,7 @@ resource "azurerm_managed_disk" "this" {
   storage_account_type = var.data_disks[count.index].type
   create_option        = "Empty"
   disk_size_gb         = var.data_disks[count.index].size_gb
-
-  tags = var.tags
+  tags                 = var.tags
 }
 
 resource "azurerm_virtual_machine_data_disk_attachment" "this" {
@@ -96,10 +74,6 @@ resource "azurerm_virtual_machine_data_disk_attachment" "this" {
   lun                = count.index
   caching            = "ReadWrite"
 }
-
-# =============================================
-# INPUT VALIDATION
-# =============================================
 
 locals {
   validate_password = (

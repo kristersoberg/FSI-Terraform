@@ -1,6 +1,6 @@
 # Module: vm
 
-Creates a virtual machine in Azure with a network interface, 
+Creates a virtual machine in Azure with a network interface,
 optional public IP, and optional extra data disks.
 
 ## Requirements
@@ -12,27 +12,21 @@ optional public IP, and optional extra data disks.
 
 ```hcl
 module "example" {
-  source = "github.com/kristersoberg/FSI-Terraform/terraform-maler//modules/vm"
+  source = "github.com/kristersoberg/FSI-Terraform/main/terraform-maler/modules/vm"
 
-  # Required
   resource_group_name = "my-rg"
   location            = "norwayeast"
   vm_name             = "my-vm"
-  subnet_id           = "<subnet-id>"
+  subnet_id           = module.network.subnet_ids["web"]
   admin_username      = "azureuser"
 
-  # OS image — see image reference below
   image_publisher     = "Canonical"
   image_offer         = "0001-com-ubuntu-server-focal"
   image_sku           = "20_04-lts"
 
-  # Authentication — choose one
   auth_type           = "ssh"
   ssh_public_key      = file("~/.ssh/id_rsa.pub")
-  # auth_type         = "password"
-  # admin_password    = var.admin_password
 
-  # Optional
   vm_size             = "Standard_B1s"
   create_public_ip    = false
   os_disk_type        = "Standard_LRS"
@@ -58,9 +52,20 @@ module "example" {
 Set `auth_type` to either `"ssh"` or `"password"`, then provide the matching credential.
 
 - `auth_type = "ssh"` — provide `ssh_public_key`. Password login will be disabled.
-- `auth_type = "password"` — provide `admin_password`. Never hardcode this value — 
+- `auth_type = "password"` — provide `admin_password`. Never hardcode this value —
   use a variable and set it via `terraform.tfvars` or the environment:
   `export TF_VAR_<variable_name>="your-value"`
+
+## OS image reference
+
+| OS | publisher | offer | sku |
+|----|-----------|-------|-----|
+| Ubuntu 20.04 | `Canonical` | `0001-com-ubuntu-server-focal` | `20_04-lts` |
+| Ubuntu 22.04 | `Canonical` | `0001-com-ubuntu-server-jammy` | `22_04-lts` |
+| Debian 11 | `Debian` | `debian-11` | `11-gen2` |
+| Debian 12 | `Debian` | `debian-12` | `12-gen2` |
+
+To find other images: `az vm image list --output table`
 
 ## Variables
 
@@ -79,9 +84,9 @@ Set `auth_type` to either `"ssh"` or `"password"`, then provide the matching cre
 | `admin_password` | no | `null` | Required if `auth_type = "password"` |
 | `vm_size` | no | `"Standard_B1s"` | Azure VM size |
 | `create_public_ip` | no | `false` | Attach a public IP to the VM |
-| `os_disk_type` | no | `"Standard_LRS"` | OS disk type |
+| `os_disk_type` | no | `"Standard_LRS"` | `Standard_LRS`, `StandardSSD_LRS` or `Premium_LRS` |
 | `startup_script` | no | `""` | Bash script to run on first boot |
-| `data_disks` | no | `[]` | List of extra disks to attach |
+| `data_disks` | no | `[]` | List of `{ size_gb, type }` objects |
 | `tags` | no | `{}` | Tags to apply to all resources |
 
 ## Outputs
@@ -94,14 +99,3 @@ Set `auth_type` to either `"ssh"` or `"password"`, then provide the matching cre
 | `public_ip` | Public IP address (null if `create_public_ip = false`) |
 | `nic_id` | Network interface ID |
 | `data_disk_ids` | List of attached data disk IDs |
-
-## OS image reference
-
-| OS | publisher | offer | sku |
-|----|-----------|-------|-----|
-| Ubuntu 20.04 | `Canonical` | `0001-com-ubuntu-server-focal` | `20_04-lts` |
-| Ubuntu 22.04 | `Canonical` | `0001-com-ubuntu-server-jammy` | `22_04-lts` |
-| Debian 11 | `Debian` | `debian-11` | `11-gen2` |
-| Debian 12 | `Debian` | `debian-12` | `12-gen2` |
-
-To find other images: `az vm image list --output table`
