@@ -15,7 +15,7 @@ Traffic is distributed across all healthy backends using round-robin.
 
 ```hcl
 module "lb_internal" {
-  source = "github.com/YOUR-USERNAME/terraform-maler//modules/loadbalancer-internal"
+  source = "https://github.com/kristersoberg/FSI-Terraform/tree/main/terraform-maler/modules/loadbalancer-internal"
 
   resource_group_name = "my-rg"
   location            = "norwayeast"
