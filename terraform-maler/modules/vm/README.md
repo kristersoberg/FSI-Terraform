@@ -12,7 +12,7 @@ optional public IP, and optional extra data disks.
 
 ```hcl
 module "example" {
-  source = "github.com/kristersoberg/FSI-Terraform/main/terraform-maler/modules/vm"
+  source = "https://github.com/kristersoberg/FSI-Terraform/tree/main/terraform-maler/modules/vm"
 
   resource_group_name = "my-rg"
   location            = "norwayeast"

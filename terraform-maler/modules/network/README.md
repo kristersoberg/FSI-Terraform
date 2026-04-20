@@ -12,7 +12,7 @@ automatically added to every NSG as the last rule.
 
 ```hcl
 module "network" {
-  source = "github.com/YOUR-USERNAME/terraform-maler//modules/network"
+  source = "https://github.com/kristersoberg/FSI-Terraform/tree/main/terraform-maler/modules/network"
 
   resource_group_name = "my-rg"
   location            = "norwayeast"
