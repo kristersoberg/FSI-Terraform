@@ -1,4 +1,7 @@
-notes.txt
-v2.0
-Original
-_v3.0
+# Terraform
+secrets.tfvars
+*.tfstate
+*.tfstate.backup
+.terraform/
+.terraform.lock.hcl
+.ssh*
